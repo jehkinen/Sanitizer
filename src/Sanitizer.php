@@ -122,15 +122,8 @@ class Sanitizer
      *  @param  string|Closure $rule
      *  @return Filter
      */
-    protected function applyFilter($rule, $value)
+    protected function applyFilter($name, $value, $options)
     {
-        if ($rule instanceof Closure) {
-            return call_user_func($rule, $value);
-        }
-
-        $name    = $rule['name'];
-        $options = $rule['options'];
-
         // If the filter does not exist, throw an Exception:
         if (!isset($this->filters[$name])) {
             throw new InvalidArgumentException("No filter found by the name of $name");
@@ -144,7 +137,6 @@ class Sanitizer
             return (new $filter)->apply($value, $options);
         }
     }
-
     /**
      *  Sanitize the given data
      *
